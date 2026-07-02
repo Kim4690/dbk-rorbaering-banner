@@ -114,11 +114,6 @@
 </head>
 <body>
 
-<!--
-  DESTINATION URL: sæt her. Hvis bansys/Adform indsætter en clickTag-variabel
-  (fx via URL-parameter ?clickTag=...), bruges den automatisk i stedet —
-  det er sådan de fleste ad-servere sporer klik korrekt.
--->
 <a id="bannerLink" class="banner" href="https://www.dbk-aps.com/da/produkter/rorbaering" target="_blank" rel="noopener">
   <video class="bgvideo" autoplay muted loop playsinline>
     <source src="scroll.mp4" type="video/mp4">
@@ -133,16 +128,16 @@
 </a>
 
 <script>
-  // Ad-server clickTag support: hvis bansys sætter en clickTag-parameter
-  // i URL'en til dette banner, bruges den som destination i stedet for
-  // den hardkodede href ovenfor. Det er standardmåden ad-servere sporer klik på.
-  (function () {
-    var params = new URLSearchParams(window.location.search);
-    var clickTag = params.get('clickTag') || params.get('clicktag') || window.clickTag;
-    if (clickTag) {
-      document.getElementById('bannerLink').setAttribute('href', clickTag);
-    }
-  })();
+  // Global clickTag-variabel — standardkonventionen for HTML5-annoncebannere.
+  // Ad-serveren (bansys/Adform) kan læse og ombryde denne variabel med sit eget
+  // tracking-link, uden at ændre selve filen.
+  var clickTag = "https://www.dbk-aps.com/da/produkter/rorbaering";
+
+  document.getElementById('bannerLink').setAttribute('href', clickTag);
+  document.getElementById('bannerLink').addEventListener('click', function (e) {
+    e.preventDefault();
+    window.open(clickTag, '_blank');
+  });
 </script>
 
 </body>
