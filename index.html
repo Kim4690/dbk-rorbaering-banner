@@ -136,6 +136,8 @@
   document.getElementById('bannerLink').setAttribute('href', clickTag);
   document.getElementById('bannerLink').addEventListener('click', function (e) {
     e.preventDefault();
+    // Giv BygTek-statistikken besked om klikket (siden udenom bannerets iframe)
+    try { window.parent.postMessage('btst-klik', '*'); } catch (x) {}
     window.open(clickTag, '_blank');
   });
 </script>
